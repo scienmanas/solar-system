@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { imageSources } from './data/imageSources';
-import { orbitalParameters } from './data/orbitalParamerts';
+import { orbitalParameters, orbitColors } from './data/orbitalParamerts';
 import { speed } from './data/rotationAndRevolution';
+import { getFresnelMat } from './getFresnel';
 
 const textureLoader = new THREE.TextureLoader();
 export function planetsConfig() {
@@ -79,7 +80,12 @@ export function planetsConfig() {
             orbitalParameters.earth.theta
         )
     )
+    const fresnelMat = getFresnelMat();
+    const earthGlowMesh = new THREE.Mesh(earthGeometry, fresnelMat);
+    earthGlowMesh.scale.setScalar(1.02);
+    earthGroup.add(earthGlowMesh);
     earthGroup.rotation.z = -23.4 * Math.PI / 100;
+    
 
     // Mars
     const marsGroup = new THREE.Group()
@@ -97,10 +103,10 @@ export function planetsConfig() {
         )
     );
 
-    const mercuryOrbit = addRevolutionLine(orbitalParameters.mercury.radius);
-    const venusOrbit = addRevolutionLine(orbitalParameters.venus.radius);
-    const earthOrbit = addRevolutionLine(orbitalParameters.earth.radius);
-    const marsOrbit = addRevolutionLine(orbitalParameters.mars.radius);
+    const mercuryOrbit = addRevolutionLine(orbitalParameters.mercury.radius, orbitColors.mercury);
+    const venusOrbit = addRevolutionLine(orbitalParameters.venus.radius, orbitColors.venus);
+    const earthOrbit = addRevolutionLine(orbitalParameters.earth.radius, orbitColors.earth);
+    const marsOrbit = addRevolutionLine(orbitalParameters.mars.radius, orbitColors.mars);
 
 
     const rotationBaseSpeed = 0.002
@@ -161,18 +167,22 @@ export function planetsConfig() {
 }
 
 
-function addRevolutionLine(radius) {
-    const material  = new THREE.LineBasicMaterial( { color: 0xffffff } );
+function addRevolutionLine(radius, color) {
+    const material = new THREE.LineDashedMaterial({ color: color,
+        dashSize: 0.03,
+        gapSize: 0.03,
+    });
     const segments = 128;
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
 
-
     for (let i = 0; i <= segments; i++) {
-        const theta = (i / segments) * 2 * Math.PI;
-        vertices.push(radius * Math.cos(theta), 0, radius * Math.sin(theta)); // X, Y, Z
+        const theta = (i / segments) * 2 * Math.PI;  // Will distribute the line points following the theta angle as in spehrical coordinate system.
+        vertices.push(radius * Math.cos(theta), 0, radius * Math.sin(theta)); // Convert from spehrical to catesian
     }
 
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices.flat(), 3));
-    return new THREE.LineLoop(geometry, material);
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices.flat(), 3))
+    const line = new THREE.LineLoop(geometry, material);
+    line.computeLineDistances();
+    return line;
 }
