@@ -1,3 +1,8 @@
+import saturnringImg from '/assets/saturn_ring.png';
+import uranusImg from '/assets/uranus.png';
+import neptuneImg from '/assets/neptune.png';
+
+
 export const imageSources = {
     sun: {
         img: "https://images.unsplash.com/photo-1732167990618-6e2b30e48c77",
@@ -19,15 +24,16 @@ export const imageSources = {
         img: "https://images.unsplash.com/photo-1732168288495-3063aec0be7d"
     },
     jupiter: {
-        img: "https://images.unsplash.com/photo-1732168304443-5b3",
+        img: "https://images.unsplash.com/photo-1732707150422-16427d51e794",
     },
     saturn: {
-        img: "https://images.unsplash.com/photo-1732168321113-",
+        img: "https://images.unsplash.com/photo-1732707174592-d85808542034",
+        ring: saturnringImg,
     },
     uranus: {
-        img: "https://images.unsplash.com/photo-1732168336673-",
+        img: uranusImg,
     },
     neptune: {
-        img: "https://images.unsplash.com/photo-1732168352223-",
-     },
+        img: neptuneImg,
+    },
 }

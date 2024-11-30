@@ -3,7 +3,7 @@ import * as THREE from 'three';
 export default function getStarfield({ numStars = 500 } = {}) {
     // Function for getting random points
     function randomSpherePoint() {
-        const radius = Math.random() * 45 + 45;
+        const radius = Math.random() * 120.46 + 45;
         const u = Math.random();
         const v = Math.random();
         const theta = 2 * Math.PI * u;
@@ -11,7 +11,7 @@ export default function getStarfield({ numStars = 500 } = {}) {
         // Coordinate system in spherical format making the a  spehrical spehere of points at r distance
         let x = radius * Math.sin(phi) * Math.cos(theta);
         let y = radius * Math.sin(phi) * Math.sin(theta);
-        let z = radius * Math.cos(phi) ;
+        let z = radius * Math.cos(phi);
 
         return {
             pos: new THREE.Vector3(x, y, z),

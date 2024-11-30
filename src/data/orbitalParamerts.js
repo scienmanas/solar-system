@@ -3,53 +3,60 @@ const BASE_DISTANCE = 1.75;
 
 export const orbitalParameters = {
   mercury: {
-    radius: BASE_DISTANCE * 1, // 1.00 (base unit)
+    radius: BASE_DISTANCE * 1,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 0.3,
-    orbitSpeed: 0.002
+    tilt: 2 * Math.PI / 180,  // 2 degrees
   },
   venus: {
-    radius: BASE_DISTANCE * 1.87, // 1.87 times Mercury's distance
+    radius: BASE_DISTANCE * 1.87,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 0.4,
-    orbitSpeed: 0.0015
+    tilt: 177.3 * Math.PI / 180,  // 177.3 degrees
   },
   earth: {
-    radius: BASE_DISTANCE * 2.58, // 2.58 times Mercury's distance
+    radius: BASE_DISTANCE * 2.58,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 0.42,
-    orbitSpeed: 0.001
+    tilt: 23.4 * Math.PI / 180,  // 23.4 degrees
   },
   mars: {
-    radius: BASE_DISTANCE * 3.94, // 3.94 times Mercury's distance
+    radius: BASE_DISTANCE * 3.94,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 0.35,
-    orbitSpeed: 0.0008
+    tilt: 25.2 * Math.PI / 180,  // 25.2 degrees
   },
   jupiter: {
-    radius: BASE_DISTANCE * 13.44, // 13.44 times Mercury's distance
+    radius: BASE_DISTANCE * 13.44,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 1.2,
-    orbitSpeed: 0.0004
+    tilt: 3.1 * Math.PI / 180,  // 3.1 degrees
   },
   saturn: {
-    radius: BASE_DISTANCE * 24.67, // 24.67 times Mercury's distance
+    radius: BASE_DISTANCE * 24.67,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 1.0,
-    orbitSpeed: 0.0003
+    tilt: 26.7 * Math.PI / 180,  // 26.7 degrees
   },
   uranus: {
-    radius: BASE_DISTANCE * 49.56, // 49.56 times Mercury's distance
+    radius: BASE_DISTANCE * 49.56,
     theta: Math.random() * 2 * Math.PI,
     phi: Math.PI / 2,
     size: 0.7,
-    orbitSpeed: 0.0002
+    tilt: 97.8 * Math.PI / 180,  // 97.8 degrees
+  },
+  neptune: {
+    radius: BASE_DISTANCE * 100.46,
+    theta: Math.random() * 2 * Math.PI,
+    phi: Math.PI / 2,
+    size: 0.6,
+    tilt: 28.3 * Math.PI / 180,  // 28.3 degrees
   }
 };
 

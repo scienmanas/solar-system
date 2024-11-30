@@ -21,6 +21,7 @@ export function planetsConfig() {
             orbitalParameters.mercury.theta
         )
     );
+    mercuryGroup.rotation.z = orbitalParameters.mercury.tilt;
 
     // Venus
     const venusGroup = new THREE.Group()
@@ -45,6 +46,7 @@ export function planetsConfig() {
             orbitalParameters.venus.theta
         )
     );
+    venusGroup.rotation.z = orbitalParameters.venus.tilt;
 
     // Earth
     const earthGroup = new THREE.Group();
@@ -84,8 +86,8 @@ export function planetsConfig() {
     const earthGlowMesh = new THREE.Mesh(earthGeometry, fresnelMat);
     earthGlowMesh.scale.setScalar(1.02);
     earthGroup.add(earthGlowMesh);
-    earthGroup.rotation.z = -23.4 * Math.PI / 100;
-    
+    earthGroup.rotation.z = orbitalParameters.earth.tilt;
+
 
     // Mars
     const marsGroup = new THREE.Group()
@@ -102,11 +104,85 @@ export function planetsConfig() {
             orbitalParameters.mars.theta
         )
     );
+    marsGroup.rotation.z = orbitalParameters.mars.tilt;
+
+    // Jupiter
+    const jupiterGroup = new THREE.Group()
+    const jupiterGeometry = new THREE.IcosahedronGeometry(orbitalParameters.jupiter.size, 12);
+    const jupiterMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load(imageSources.jupiter.img),
+    })
+    const jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
+    jupiterGroup.add(jupiter);
+    jupiterGroup.position.setFromSpherical(
+        new THREE.Spherical(
+            orbitalParameters.jupiter.radius,
+            orbitalParameters.jupiter.phi,
+            orbitalParameters.jupiter.theta
+        )
+    )
+    jupiterGroup.rotation.z = orbitalParameters.jupiter.tilt;
+
+    // Saturn 
+    const saturnGroup = new THREE.Group();
+    const saturnGeometry = new THREE.IcosahedronGeometry(orbitalParameters.saturn.size, 12);
+    const saturnMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load(imageSources.saturn.img),
+    })
+    const saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
+    saturnGroup.add(saturn);
+    saturnGroup.position.setFromSpherical(
+        new THREE.Spherical(
+            orbitalParameters.saturn.radius,
+            orbitalParameters.saturn.phi,
+            orbitalParameters.saturn.theta,
+        )
+    )
+    saturnGroup.rotation.z = orbitalParameters.saturn.tilt;
+
+    // Uranus
+    const uranusGroup = new THREE.Group();
+    const uranusGeometry = new THREE.IcosahedronGeometry(orbitalParameters.uranus.size, 12);
+    const uranusMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load(imageSources.uranus.img),
+    })
+    const uranus = new THREE.Mesh(uranusGeometry, uranusMaterial);
+    uranusGroup.add(uranus);
+    uranusGroup.position.setFromSpherical(
+        new THREE.Spherical(
+            orbitalParameters.uranus.radius,
+            orbitalParameters.uranus.phi,
+            orbitalParameters.uranus.theta,
+        )
+    )
+    uranusGroup.rotation.z = orbitalParameters.uranus.tilt;
+
+    // Neptune
+    const neptuneGroup = new THREE.Group();
+    const neptuneGeometry = new THREE.IcosahedronGeometry(orbitalParameters.neptune.size, 12);
+    const neptuneMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load(imageSources.neptune.img),
+    })
+    const neptune = new THREE.Mesh(neptuneGeometry, neptuneMaterial);
+    neptuneGroup.add(neptune);
+    neptuneGroup.position.setFromSpherical(
+        new THREE.Spherical(
+            orbitalParameters.neptune.radius,
+            orbitalParameters.neptune.phi,
+            orbitalParameters.neptune.theta,
+        )
+    )
+    neptuneGroup.rotation.z = orbitalParameters.neptune.tilt;
+
 
     const mercuryOrbit = addRevolutionLine(orbitalParameters.mercury.radius, orbitColors.mercury);
     const venusOrbit = addRevolutionLine(orbitalParameters.venus.radius, orbitColors.venus);
     const earthOrbit = addRevolutionLine(orbitalParameters.earth.radius, orbitColors.earth);
     const marsOrbit = addRevolutionLine(orbitalParameters.mars.radius, orbitColors.mars);
+    const jupiterOrbit = addRevolutionLine(orbitalParameters.jupiter.radius, orbitColors.jupiter);
+    const saturnOrbit = addRevolutionLine(orbitalParameters.saturn.radius, orbitColors.saturn);
+    const uranusOrbit = addRevolutionLine(orbitalParameters.uranus.radius, orbitColors.uranus);
+    const neptuneOrbit = addRevolutionLine(orbitalParameters.neptune.radius, orbitColors.uranus);
 
 
     const rotationBaseSpeed = 0.002
@@ -146,6 +222,7 @@ export function planetsConfig() {
             )
         );
 
+        // Mars
         mars.rotation.y += speed.rotationSpeeds.mars * rotationBaseSpeed;
         marsGroup.position.setFromSpherical(
             new THREE.Spherical(
@@ -155,20 +232,60 @@ export function planetsConfig() {
             )
         );
 
+        // Jupiter
+        jupiter.rotation.y += speed.rotationSpeeds.jupiter * rotationBaseSpeed;
+        jupiterGroup.position.setFromSpherical(
+            new THREE.Spherical(
+                orbitalParameters.jupiter.radius,
+                orbitalParameters.jupiter.phi,
+                orbitalParameters.jupiter.theta += speed.revolutionSpeeds.jupiter * revolutionBaseSpeed
+            )
+        );
+
+        // Saturn
+        saturn.rotation.y += speed.rotationSpeeds.saturn * rotationBaseSpeed;
+        saturnGroup.position.setFromSpherical(
+            new THREE.Spherical(
+                orbitalParameters.saturn.radius,
+                orbitalParameters.saturn.phi,
+                orbitalParameters.saturn.theta += speed.revolutionSpeeds.saturn * revolutionBaseSpeed
+            )
+        );
+
+        // Uranus
+        uranus.rotation.y += speed.rotationSpeeds.uranus * rotationBaseSpeed;
+        uranusGroup.position.setFromSpherical(
+            new THREE.Spherical(
+                orbitalParameters.uranus.radius,
+                orbitalParameters.uranus.phi,
+                orbitalParameters.uranus.theta += speed.revolutionSpeeds.saturn * revolutionBaseSpeed
+            )
+        );
+
+        // Neptune
+        neptune.rotation.y += speed.rotationSpeeds.neptune * rotationBaseSpeed;
+        neptuneGroup.position.setFromSpherical(
+            new THREE.Spherical(
+                orbitalParameters.neptune.radius,
+                orbitalParameters.neptune.phi,
+                orbitalParameters.neptune.theta += speed.revolutionSpeeds.neptune * revolutionBaseSpeed
+            )
+        );
+
     }
 
     // Return all the planets group
     return {
-        planets: [mercuryGroup, venusGroup, earthGroup, marsGroup
-        ],
-        orbits: [mercuryOrbit, venusOrbit, earthOrbit, marsOrbit],
+        planets: [mercuryGroup, venusGroup, earthGroup, marsGroup, jupiterGroup, saturnGroup, uranusGroup, neptuneGroup],
+        orbits: [mercuryOrbit, venusOrbit, earthOrbit, marsOrbit, jupiterOrbit, saturnOrbit, uranusOrbit, neptuneOrbit],
         animatePlanets
     }
 }
 
 
 function addRevolutionLine(radius, color) {
-    const material = new THREE.LineDashedMaterial({ color: color,
+    const material = new THREE.LineDashedMaterial({
+        color: color,
         dashSize: 0.03,
         gapSize: 0.03,
     });
