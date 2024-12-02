@@ -88,6 +88,29 @@ export function planetsConfig() {
     earthGroup.add(earthGlowMesh);
     earthGroup.rotation.z = orbitalParameters.earth.tilt;
 
+    // Moon
+    const moonGeometry = new THREE.IcosahedronGeometry(orbitalParameters.earth.moon.size, 12);
+    const moonMaterial = new THREE.MeshStandardMaterial({
+        map: textureLoader.load(imageSources.moon.img)
+    });
+    const moonMesh = new THREE.Mesh(moonGeometry, moonMaterial);
+
+    // Create a separate group for moon to handle its revolution
+    const moonGroup = new THREE.Group();
+    moonGroup.add(moonMesh);
+
+    // Position moon relative to earth
+    moonGroup.position.setFromSpherical(
+        new THREE.Spherical(
+            orbitalParameters.earth.moon.radius,
+            orbitalParameters.earth.moon.phi,
+            orbitalParameters.earth.moon.theta
+        )
+    );
+
+    // Add moon group to earth group
+    earthGroup.add(moonGroup);
+    moonGroup.rotation.z = orbitalParameters.earth.moon.tilt;
 
     // Mars
     const marsGroup = new THREE.Group()
@@ -131,6 +154,23 @@ export function planetsConfig() {
     })
     const saturn = new THREE.Mesh(saturnGeometry, saturnMaterial);
     saturnGroup.add(saturn);
+
+    // Add Saturn's rings
+    const ringGeometry = new THREE.RingGeometry(
+        orbitalParameters.saturn.size * 1.4,  // inner radius
+        orbitalParameters.saturn.size * 2.4,  // outer radius
+        64  // segments
+    );
+    const ringMaterial = new THREE.MeshBasicMaterial({
+        map: textureLoader.load(imageSources.saturn.ring),
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.9
+    });
+    const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+    ring.rotation.x = Math.PI / 2; // Rotate ring to be horizontal
+    saturnGroup.add(ring);
+
     saturnGroup.position.setFromSpherical(
         new THREE.Spherical(
             orbitalParameters.saturn.radius,
@@ -219,6 +259,16 @@ export function planetsConfig() {
                 orbitalParameters.earth.radius,
                 orbitalParameters.earth.phi,
                 orbitalParameters.earth.theta += speed.revolutionSpeeds.earth * revolutionBaseSpeed
+            )
+        );
+
+        // Moon rotation and revolution
+        moonMesh.rotation.y += 0.5 * rotationBaseSpeed; // Moon's rotation (tidally locked)
+        moonGroup.position.setFromSpherical(
+            new THREE.Spherical(
+                orbitalParameters.earth.moon.radius,
+                orbitalParameters.earth.moon.phi,
+                orbitalParameters.earth.moon.theta += 0.5 * revolutionBaseSpeed // Moon revolves around Earth
             )
         );
 

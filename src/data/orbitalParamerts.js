@@ -22,6 +22,13 @@ export const orbitalParameters = {
     phi: Math.PI / 2,
     size: 0.42,
     tilt: 23.4 * Math.PI / 180,  // 23.4 degrees
+    moon: {
+      radius: 0.8, // Distance from Earth
+      size: 0.12,  // Moon is about 27% the size of Earth
+      theta: Math.random() * 2 * Math.PI,
+      phi: Math.PI / 2,
+      tilt: 5.145 * Math.PI / 180,  // 5.145 degrees
+    }
   },
   mars: {
     radius: BASE_DISTANCE * 3.94,
