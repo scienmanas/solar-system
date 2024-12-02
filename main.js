@@ -3,7 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import getStarfield from './src/getStars';
 import { getSun } from './src/getSun';
 import { planetsConfig } from './src/getPlanetsConfig';
-
+import { createAsteroidBelt } from './src/getAsteroidBelt';
+import { orbitalParameters } from './src/data/orbitalParamerts';
 
 // Add scene & loader
 const scene = new THREE.Scene();
@@ -13,7 +14,7 @@ const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerH
 camera.position.z = 5;
 
 // Add renderer
-const renderer = new THREE.WebGLRenderer({antialias: true});
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -27,7 +28,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true
 
 // Add stars first
-const stars = getStarfield({numStars: 1000})
+const stars = getStarfield({ numStars: 1000 })
 scene.add(stars);
 
 // Add ambient light
@@ -35,7 +36,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.13)
 scene.add(ambientLight)
 
 // Add spherical sunlight (point light)
-const sunlight = new THREE.PointLight(0xffffff, 1, 1000, 1);
+const sunlight = new THREE.PointLight(0xffffff, 2.5, 1000, 0.6);
 sunlight.position.set(0, 0, 0);
 scene.add(sunlight);
 sunlight.castShadow = true
@@ -52,13 +53,21 @@ const sun = getSun();
 solarSystemGroup.add(sun)
 
 // Add planets
-const {planets , orbits,animatePlanets } = planetsConfig();
+const { planets, orbits, animatePlanets } = planetsConfig();
 planets.forEach(planet => {
   solarSystemGroup.add(planet)
 });
 orbits.forEach(orbit => {
   solarSystemGroup.add(orbit)
 })
+
+// Add asteroid belt
+const { asteroidBelt, animateAsteroids } = createAsteroidBelt({
+  innerRadius: orbitalParameters.asteroidBelt.innerRadius,
+  outerRadius: orbitalParameters.asteroidBelt.outerRadius,
+  numAsteroids: 500,
+})
+solarSystemGroup.add(asteroidBelt);
 
 // ----------- ----------- ----------- ----------- ----------- 
 
@@ -73,6 +82,7 @@ window.addEventListener('resize', () => {
 function animate() {
   requestAnimationFrame(animate);
   animatePlanets();
+  animateAsteroids()
   controls.update();
   renderer.render(scene, camera);
 }

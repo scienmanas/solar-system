@@ -30,6 +30,10 @@ export const orbitalParameters = {
     size: 0.35,
     tilt: 25.2 * Math.PI / 180,  // 25.2 degrees
   },
+  asteroidBelt: {
+    innerRadius: BASE_DISTANCE * 4.7,  // ~2.2 AU (astronomical units)
+    outerRadius: BASE_DISTANCE * 7.0,  // ~3.2 AU
+  },
   jupiter: {
     radius: BASE_DISTANCE * 13.44,
     theta: Math.random() * 2 * Math.PI,
@@ -59,7 +63,6 @@ export const orbitalParameters = {
     tilt: 28.3 * Math.PI / 180,  // 28.3 degrees
   }
 };
-
 
 export const orbitColors = {
   mercury: 0x9C9C9C, // Silver gray
