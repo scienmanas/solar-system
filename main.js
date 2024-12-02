@@ -28,7 +28,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true
 
 // Add stars first
-const stars = getStarfield({ numStars: 1000 })
+const stars = getStarfield({ numStars: 10000 })
 scene.add(stars);
 
 // Add ambient light
@@ -65,7 +65,7 @@ orbits.forEach(orbit => {
 const { asteroidBelt, animateAsteroids } = createAsteroidBelt({
   innerRadius: orbitalParameters.asteroidBelt.innerRadius,
   outerRadius: orbitalParameters.asteroidBelt.outerRadius,
-  numAsteroids: 500,
+  numAsteroids: 2000,
 })
 solarSystemGroup.add(asteroidBelt);
 
